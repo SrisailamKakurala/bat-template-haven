@@ -13,7 +13,7 @@
     --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 0 72% 51%;
+    --primary: 0 100% 45%;
     --primary-foreground: 0 0% 98%;
 
     --secondary: 0 0% 13%;
@@ -22,7 +22,7 @@
     --muted: 0 0% 13%;
     --muted-foreground: 0 0% 63.9%;
 
-    --accent: 0 72% 51%;
+    --accent: 0 100% 45%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -30,7 +30,7 @@
 
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
-    --ring: 0 72% 51%;
+    --ring: 0 100% 45%;
 
     --radius: 0.5rem;
   }
@@ -47,7 +47,7 @@
 }
 
 .auth-gradient {
-  background: linear-gradient(to right, rgba(220,20,60,0.1), rgba(139,0,0,0.2));
+  background: linear-gradient(to right, rgba(255,0,0,0.1), rgba(0,0,0,0.2));
 }
 
 .glass-panel {
@@ -62,4 +62,12 @@
 
 .google-button {
   @apply flex items-center justify-center gap-2 w-full py-2 px-4 bg-white text-gray-800 rounded-md hover:bg-gray-100 transition-colors duration-200 border border-gray-300;
+}
+
+.nav-link {
+  @apply w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors duration-200 hover:bg-accent/20;
+}
+
+.nav-link-active {
+  @apply bg-accent text-accent-foreground;
 }

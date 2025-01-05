@@ -1,5 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
-import { BookmarkIcon, FolderIcon, LayoutTemplateIcon, UserCircle2Icon } from "lucide-react";
+import { 
+  BookmarkIcon, 
+  FolderIcon, 
+  LayoutTemplateIcon, 
+  UserCircle2Icon,
+  Settings2Icon,
+  HelpCircleIcon
+} from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -8,12 +15,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
   const location = useLocation();
   
-  const menuItems = [
+  const mainMenuItems = [
     {
       title: "Folder Structures",
       url: "/folders",
@@ -29,10 +37,23 @@ export function AppSidebar() {
       url: "/bookmarks",
       icon: BookmarkIcon,
     },
+  ];
+
+  const bottomMenuItems = [
     {
       title: "Profile",
       url: "/profile",
       icon: UserCircle2Icon,
+    },
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings2Icon,
+    },
+    {
+      title: "Help",
+      url: "/help",
+      icon: HelpCircleIcon,
     },
   ];
 
@@ -49,7 +70,31 @@ export function AppSidebar() {
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
+              {mainMenuItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild
+                    isActive={location.pathname === item.url}
+                    tooltip={item.title}
+                    className="w-full"
+                  >
+                    <Link to={item.url} className="nav-link">
+                      <item.icon className="w-5 h-5" />
+                      <span className="flex-1 text-center">{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator className="my-4" />
+
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {bottomMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton 
                     asChild

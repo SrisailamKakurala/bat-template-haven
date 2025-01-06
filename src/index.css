@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 7%;
+    --background: 0 0% 12%;
     --foreground: 0 0% 98%;
 
     --card: 0 0% 9%;
@@ -41,7 +41,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-[#111] text-foreground;
+    @apply bg-[#1e1e1e] text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

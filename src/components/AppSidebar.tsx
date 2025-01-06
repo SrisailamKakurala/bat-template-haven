@@ -6,8 +6,7 @@ import {
   UserCircle2Icon,
   HomeIcon,
   UsersIcon,
-  LogOutIcon,
-  SearchIcon
+  LogOutIcon
 } from "lucide-react";
 import {
   Sidebar,
@@ -17,7 +16,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
@@ -96,8 +94,6 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-
-        <SidebarSeparator className="my-4 bg-gray-800" />
 
         <SidebarGroup>
           <SidebarGroupContent>

@@ -41,7 +41,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[#111] text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -51,9 +51,9 @@
 }
 
 .glass-panel {
-  background: rgba(30, 30, 30, 0.7);
+  background: rgba(17, 17, 17, 0.8);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.1);
 }
 
 .hover-scale {
@@ -65,9 +65,9 @@
 }
 
 .nav-link {
-  @apply w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors duration-200 hover:bg-accent/20;
+  @apply w-full flex items-center gap-2 px-4 py-2 text-gray-300 hover:bg-red-600/10 hover:text-red-600 transition-colors rounded-lg;
 }
 
 .nav-link-active {
-  @apply bg-accent text-accent-foreground;
+  @apply bg-red-600 text-white hover:bg-red-700 hover:text-white;
 }

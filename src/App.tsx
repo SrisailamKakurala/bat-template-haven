@@ -12,6 +12,7 @@ import FolderStructures from "./pages/FolderStructures";
 import Templates from "./pages/Templates";
 import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
+import Contributors from "./pages/Contributors";
 
 const queryClient = new QueryClient();
 
@@ -24,7 +25,7 @@ const App = () => (
         <SidebarProvider>
           <div className="flex min-h-screen w-full">
             <AppSidebar />
-            <main className="flex-1 bg-background">
+            <main className="flex-1 bg-[#111]">
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
@@ -33,6 +34,7 @@ const App = () => (
                 <Route path="/templates" element={<Templates />} />
                 <Route path="/bookmarks" element={<Bookmarks />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/contributors" element={<Contributors />} />
               </Routes>
             </main>
           </div>

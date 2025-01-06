@@ -3,45 +3,34 @@ import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className="glass-panel py-4 px-6 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-primary">BatTemplates</h1>
-        <div className="space-x-4">
-          <Link to="/login">
-            <Button variant="ghost" className="hover-scale">
-              Sign In
-            </Button>
-          </Link>
-          <Link to="/register">
-            <Button className="hover-scale">Get Started</Button>
-          </Link>
-        </div>
-      </nav>
-
-      <main className="flex-grow flex items-center justify-center auth-gradient p-4">
-        <div className="text-center space-y-8 max-w-3xl mx-auto">
-          <h1 className="text-5xl font-bold">
-            <span className="text-primary">Empowering Developers</span> with
-            <br />
-            Tailored Templates
+    <div className="min-h-screen flex flex-col bg-[#111]">
+      <main className="flex-grow flex items-center justify-center p-4">
+        <div className="text-center space-y-8 max-w-4xl mx-auto">
+          <h1 className="text-5xl font-bold space-y-2">
+            <div>Unleash the <span className="text-red-600">Power</span> of Instant</div>
+            <div><span className="text-red-600">Project Kickstarts</span> with</div>
+            <div className="text-red-600">
+              <img 
+                src="/lovable-uploads/9038ef8c-a77e-4c34-9983-c7450e1b61f2.png" 
+                alt="Bat Templates" 
+                className="w-[400px] mx-auto mt-4"
+              />
+            </div>
           </h1>
-          <p className="text-xl text-muted-foreground">
-            Folder and project templates for every use case, from portfolios to e-commerce!
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button size="lg" className="hover-scale">
-              Explore Templates
-            </Button>
-            <Button size="lg" variant="outline" className="hover-scale">
-              Learn More
-            </Button>
+          <div className="flex justify-center gap-4 mt-8">
+            <Link to="/templates">
+              <Button className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-6 text-lg">
+                Explore Templates
+              </Button>
+            </Link>
+            <Link to="/folders">
+              <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg">
+                Explore Folders
+              </Button>
+            </Link>
           </div>
         </div>
       </main>
-
-      <footer className="glass-panel py-6 px-4 text-center text-muted-foreground">
-        <p>© 2024 BatTemplates. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

@@ -6,7 +6,8 @@ import {
   UserCircle2Icon,
   HomeIcon,
   UsersIcon,
-  LogOutIcon
+  LogOutIcon,
+  SearchIcon
 } from "lucide-react";
 import {
   Sidebar,

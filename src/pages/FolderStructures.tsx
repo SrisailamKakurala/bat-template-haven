@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Star } from "lucide-react";
+import { Heart } from "lucide-react";
 
 const FolderStructures = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,37 +11,37 @@ const FolderStructures = () => {
       name: "React Project",
       description: "Modern React project structure with best practices",
       type: "Frontend",
-      stars: 5
+      stars: 523
     },
     {
       name: "Node.js API",
       description: "Scalable Node.js API structure with Express",
       type: "Backend",
-      stars: 4
+      stars: 428
     },
     {
       name: "Full Stack App",
       description: "Complete full-stack application structure",
       type: "Full Stack",
-      stars: 5
+      stars: 612
     },
     {
       name: "Next.js App",
       description: "Production-ready Next.js project structure",
       type: "Frontend",
-      stars: 4
+      stars: 445
     },
     {
       name: "React Native App",
       description: "Mobile app structure with React Native",
       type: "Mobile",
-      stars: 3
+      stars: 389
     },
     {
       name: "GraphQL API",
       description: "Modern GraphQL API structure",
       type: "Backend",
-      stars: 4
+      stars: 467
     }
   ];
 
@@ -52,16 +52,10 @@ const FolderStructures = () => {
     )
     .sort((a, b) => b.stars - a.stars);
 
-  const StarRating = ({ rating }: { rating: number }) => (
-    <div className="flex gap-1">
-      {[...Array(5)].map((_, index) => (
-        <Star
-          key={index}
-          className={`w-4 h-4 ${
-            index < rating ? "fill-red-600 text-red-600" : "text-gray-400"
-          }`}
-        />
-      ))}
+  const LikeCount = ({ count }: { count: number }) => (
+    <div className="flex items-center gap-1 text-gray-400">
+      <Heart className="w-4 h-4" />
+      <span className="text-sm">{count}</span>
     </div>
   );
 
@@ -85,7 +79,7 @@ const FolderStructures = () => {
           <div key={index} className="bg-gray-900 rounded-lg p-6 hover:bg-gray-800 transition-colors">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-xl font-semibold text-white">{structure.name}</h3>
-              <StarRating rating={structure.stars} />
+              <LikeCount count={structure.stars} />
             </div>
             <p className="text-gray-400 mb-4">{structure.description}</p>
             <div className="flex justify-between items-center">

@@ -17,15 +17,27 @@ const Index = () => {
               />
             </div>
           </h1>
-          <div className="flex justify-center gap-4 mt-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
             <Link to="/templates">
-              <Button className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-6 text-lg">
+              <Button className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-6 text-lg w-full sm:w-auto">
                 Explore Templates
               </Button>
             </Link>
             <Link to="/folders">
-              <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg">
+              <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-6 text-lg w-full sm:w-auto">
                 Explore Folders
+              </Button>
+            </Link>
+          </div>
+          <div className="flex justify-center gap-4 mt-4">
+            <Link to="/login">
+              <Button className="bg-red-600 hover:bg-red-700 text-white px-8 py-2 text-base">
+                Sign In
+              </Button>
+            </Link>
+            <Link to="/register">
+              <Button className="bg-gray-800 hover:bg-gray-700 text-white px-8 py-2 text-base">
+                Register
               </Button>
             </Link>
           </div>

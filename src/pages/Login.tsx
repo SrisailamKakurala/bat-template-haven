@@ -11,7 +11,6 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual login logic
     toast({
       title: "Login Attempted",
       description: "This is a demo. Login functionality will be implemented later.",
@@ -29,7 +28,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center auth-gradient p-4">
       <div className="w-full max-w-md glass-panel rounded-lg p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-primary">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-red-600">Welcome Back</h1>
           <p className="text-muted-foreground">Sign in to your account</p>
         </div>
 
@@ -60,7 +59,7 @@ const Login = () => {
             <span className="w-full border-t border-gray-700" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+            <span className="bg-[#1e1e1e] px-2 text-muted-foreground">Or continue with</span>
           </div>
         </div>
 
@@ -71,7 +70,7 @@ const Login = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-secondary"
+              className="bg-[#2a2a2a] border-gray-700"
             />
           </div>
           <div className="space-y-2">
@@ -80,17 +79,17 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-secondary"
+              className="bg-[#2a2a2a] border-gray-700"
             />
           </div>
-          <Button type="submit" className="w-full hover-scale">
+          <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
             Sign In
           </Button>
         </form>
 
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Don't have an account? </span>
-          <Link to="/register" className="text-primary hover:underline">
+          <Link to="/register" className="text-red-600 hover:underline">
             Register
           </Link>
         </div>

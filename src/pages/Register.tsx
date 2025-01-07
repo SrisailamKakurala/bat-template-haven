@@ -12,7 +12,6 @@ const Register = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement actual registration logic
     toast({
       title: "Registration Attempted",
       description: "This is a demo. Registration functionality will be implemented later.",
@@ -30,7 +29,7 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center auth-gradient p-4">
       <div className="w-full max-w-md glass-panel rounded-lg p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-primary">Create Account</h1>
+          <h1 className="text-3xl font-bold text-red-600">Create Account</h1>
           <p className="text-muted-foreground">Join our community today</p>
         </div>
 
@@ -61,7 +60,7 @@ const Register = () => {
             <span className="w-full border-t border-gray-700" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+            <span className="bg-[#1e1e1e] px-2 text-muted-foreground">Or continue with</span>
           </div>
         </div>
 
@@ -72,7 +71,7 @@ const Register = () => {
               placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="bg-secondary"
+              className="bg-[#2a2a2a] border-gray-700"
             />
           </div>
           <div className="space-y-2">
@@ -81,7 +80,7 @@ const Register = () => {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="bg-secondary"
+              className="bg-[#2a2a2a] border-gray-700"
             />
           </div>
           <div className="space-y-2">
@@ -90,17 +89,17 @@ const Register = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-secondary"
+              className="bg-[#2a2a2a] border-gray-700"
             />
           </div>
-          <Button type="submit" className="w-full hover-scale">
+          <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
             Create Account
           </Button>
         </form>
 
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Already have an account? </span>
-          <Link to="/login" className="text-primary hover:underline">
+          <Link to="/login" className="text-red-600 hover:underline">
             Sign In
           </Link>
         </div>

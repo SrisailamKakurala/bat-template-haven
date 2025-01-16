@@ -9,7 +9,7 @@ import {
   Settings,
   History,
   LogOut,
-  Bat
+  Flame
 } from "lucide-react";
 import {
   Sidebar,
@@ -21,7 +21,13 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-const mainMenuItems = [
+interface MenuItem {
+  title: string;
+  url: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const mainMenuItems: MenuItem[] = [
   {
     title: "Dashboard",
     url: "/adminPanel",
@@ -64,6 +70,30 @@ const mainMenuItems = [
   },
 ];
 
+const Logo = () => (
+  <Link to="/" className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity">
+    <Flame className="w-8 h-8 text-red-600" />
+    <div className="flex flex-col">
+      <span className="text-red-600">BAT</span>
+      <span className="text-sm text-gray-400">Templates</span>
+    </div>
+  </Link>
+);
+
+const MenuItem = ({ item, isActive }: { item: MenuItem; isActive: boolean }) => (
+  <SidebarMenuItem>
+    <SidebarMenuButton asChild isActive={isActive} className="w-full">
+      <Link 
+        to={item.url} 
+        className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-red-600/10 hover:text-red-600 transition-colors rounded-lg"
+      >
+        <item.icon className="w-5 h-5" />
+        <span>{item.title}</span>
+      </Link>
+    </SidebarMenuButton>
+  </SidebarMenuItem>
+);
+
 export function AdminSidebar() {
   const location = useLocation();
 
@@ -72,29 +102,16 @@ export function AdminSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="flex justify-center p-4">
-            <Link to="/" className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity">
-              <Bat className="w-8 h-8 text-red-600" />
-              <div className="flex flex-col">
-                <span className="text-red-600">BAT</span>
-                <span className="text-sm text-gray-400">Templates</span>
-              </div>
-            </Link>
+            <Logo />
           </div>
           <SidebarGroupContent>
             <SidebarMenu>
               {mainMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild
-                    isActive={location.pathname === item.url}
-                    className="w-full"
-                  >
-                    <Link to={item.url} className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-red-600/10 hover:text-red-600 transition-colors rounded-lg">
-                      <item.icon className="w-5 h-5" />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <MenuItem 
+                  key={item.title}
+                  item={item}
+                  isActive={location.pathname === item.url}
+                />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -105,7 +122,10 @@ export function AdminSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild className="w-full">
-                  <Link to="/" className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-red-600/10 hover:text-red-600 transition-colors rounded-lg">
+                  <Link 
+                    to="/" 
+                    className="flex items-center gap-3 px-4 py-2 text-gray-300 hover:bg-red-600/10 hover:text-red-600 transition-colors rounded-lg"
+                  >
                     <LogOut className="w-5 h-5" />
                     <span>Exit Admin Panel</span>
                   </Link>

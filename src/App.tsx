@@ -13,6 +13,7 @@ import Templates from "./pages/Templates";
 import Bookmarks from "./pages/Bookmarks";
 import Profile from "./pages/Profile";
 import Contributors from "./pages/Contributors";
+import AdminPanel from "./pages/AdminPanel";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
                 <Route path="/bookmarks" element={<Bookmarks />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/contributors" element={<Contributors />} />
+                <Route path="/adminPanel" element={<AdminPanel />} />
               </Routes>
             </main>
           </div>

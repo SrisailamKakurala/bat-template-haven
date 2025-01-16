@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Star, Plus, BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 const FolderStructures = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [structures, setStructures] = useState([
     {
@@ -12,14 +14,16 @@ const FolderStructures = () => {
       description: "Modern React project structure with best practices",
       type: "Frontend",
       stars: 523,
-      isBookmarked: false
+      isBookmarked: false,
+      status: "approved"
     },
     {
       name: "Node.js API",
       description: "Scalable Node.js API structure with Express",
       type: "Backend",
       stars: 428,
-      isBookmarked: false
+      isBookmarked: false,
+      status: "approved"
     },
     {
       name: "Full Stack App",
@@ -59,14 +63,12 @@ const FolderStructures = () => {
 
   const handleCreateFolder = () => {
     if (newFolder.name && newFolder.description) {
-      setStructures([
-        ...structures,
-        {
-          ...newFolder,
-          stars: 0,
-          isBookmarked: false
-        }
-      ]);
+      // Instead of adding directly to structures, show pending message
+      toast({
+        title: "Folder Structure Submitted",
+        description: "Your folder structure has been submitted for approval. It will be visible once approved.",
+      });
+      
       setNewFolder({ name: "", description: "", type: "Frontend" });
     }
   };
@@ -79,8 +81,9 @@ const FolderStructures = () => {
 
   const filteredStructures = structures
     .filter(structure => 
-      structure.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      structure.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (structure.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      structure.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
+      structure.status === "approved" // Only show approved structures
     )
     .sort((a, b) => b.stars - a.stars);
 

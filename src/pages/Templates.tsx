@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Star, Plus, BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 
 const Templates = () => {
+  const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [templates, setTemplates] = useState([
     {
@@ -12,13 +14,16 @@ const Templates = () => {
       description: "Modern portfolio template with animations",
       type: "Personal",
       stars: 523,
-      isBookmarked: false
+      isBookmarked: false,
+      status: "approved"
     },
     {
       name: "E-commerce",
       description: "Complete e-commerce solution with cart",
       type: "Business",
-      stars: 4
+      stars: 428,
+      isBookmarked: false,
+      status: "approved"
     },
     {
       name: "Blog",
@@ -54,14 +59,12 @@ const Templates = () => {
 
   const handleCreateTemplate = () => {
     if (newTemplate.name && newTemplate.description) {
-      setTemplates([
-        ...templates,
-        {
-          ...newTemplate,
-          stars: 0,
-          isBookmarked: false
-        }
-      ]);
+      // Instead of adding directly to templates, show pending message
+      toast({
+        title: "Template Submitted",
+        description: "Your template has been submitted for approval. It will be visible once approved.",
+      });
+      
       setNewTemplate({ name: "", description: "", type: "Personal" });
     }
   };
@@ -74,8 +77,9 @@ const Templates = () => {
 
   const filteredTemplates = templates
     .filter(template => 
-      template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase())
+      (template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      template.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
+      template.status === "approved" // Only show approved templates
     )
     .sort((a, b) => b.stars - a.stars);
 

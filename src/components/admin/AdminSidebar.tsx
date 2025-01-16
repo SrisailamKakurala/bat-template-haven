@@ -8,7 +8,8 @@ import {
   UserCheck,
   Settings,
   History,
-  LogOut
+  LogOut,
+  Bat
 } from "lucide-react";
 import {
   Sidebar,
@@ -71,12 +72,12 @@ export function AdminSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className="flex justify-center p-4">
-            <Link to="/" className="text-red-600 text-xl font-bold hover:opacity-80 transition-opacity">
-              <img 
-                src="/lovable-uploads/9038ef8c-a77e-4c34-9983-c7450e1b61f2.png" 
-                alt="Bat Templates" 
-                className="w-full max-w-[200px] h-auto"
-              />
+            <Link to="/" className="flex items-center gap-2 text-xl font-bold hover:opacity-80 transition-opacity">
+              <Bat className="w-8 h-8 text-red-600" />
+              <div className="flex flex-col">
+                <span className="text-red-600">BAT</span>
+                <span className="text-sm text-gray-400">Templates</span>
+              </div>
             </Link>
           </div>
           <SidebarGroupContent>

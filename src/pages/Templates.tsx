@@ -2,12 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Star, Plus, BookmarkIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-// Mock authentication - replace with actual auth later
+// Mock authentication state management
 const isAuthenticated = false;
 
 interface TemplateFormData {
@@ -40,6 +40,15 @@ const Templates = () => {
     isApproved: false,
     reviewedAt: null
   });
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+    setShowLoginDialog(false);
+    toast({
+      title: "Logged in successfully",
+      description: "Welcome back! You can now submit templates.",
+    });
+  };
 
   const handleNewTemplate = () => {
     if (!isAuthenticated) {
@@ -136,14 +145,25 @@ const Templates = () => {
             <DialogContent className="bg-gray-900 text-white">
               <DialogHeader>
                 <DialogTitle>Login Required</DialogTitle>
+                <DialogDescription className="text-gray-400">
+                  This is a demo login. Click the button below to simulate logging in.
+                </DialogDescription>
               </DialogHeader>
-              <p className="text-gray-400">Please login to submit a new template.</p>
-              <Button 
-                onClick={() => window.location.href = '/login'} 
-                className="bg-red-600 hover:bg-red-700"
-              >
-                Go to Login
-              </Button>
+              <div className="flex flex-col gap-4">
+                <Button 
+                  onClick={handleLogin} 
+                  className="bg-red-600 hover:bg-red-700 w-full"
+                >
+                  Demo Login
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => window.location.href = '/login'} 
+                  className="w-full"
+                >
+                  Go to Real Login
+                </Button>
+              </div>
             </DialogContent>
           </Dialog>
 

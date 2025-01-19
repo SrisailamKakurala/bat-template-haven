@@ -5,15 +5,22 @@ import { Star, Plus, BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 // Mock authentication - replace with actual auth later
-const isAuthenticated = false; // This should come from your auth context
+const isAuthenticated = false;
 
 interface TemplateFormData {
   title: string;
   description: string;
   githubLink: string;
   tags: string[];
+  createdBy: string;
+  createdAt: Date;
+  likes: number;
+  downloads: number;
+  isApproved: boolean;
+  reviewedAt: Date | null;
 }
 
 const Templates = () => {
@@ -26,7 +33,43 @@ const Templates = () => {
     description: "",
     githubLink: "",
     tags: [],
+    createdBy: "user123", // This would come from auth
+    createdAt: new Date(),
+    likes: 0,
+    downloads: 0,
+    isApproved: false,
+    reviewedAt: null
   });
+
+  const handleNewTemplate = () => {
+    if (!isAuthenticated) {
+      setShowLoginDialog(true);
+    } else {
+      setShowTemplateForm(true);
+    }
+  };
+
+  const handleSubmitTemplate = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Submitting template:", formData);
+    toast({
+      title: "Template Submitted",
+      description: "Your template has been sent for approval. We'll review it soon.",
+    });
+    setShowTemplateForm(false);
+    setFormData({
+      title: "",
+      description: "",
+      githubLink: "",
+      tags: [],
+      createdBy: "user123",
+      createdAt: new Date(),
+      likes: 0,
+      downloads: 0,
+      isApproved: false,
+      reviewedAt: null
+    });
+  };
 
   const [templates, setTemplates] = useState([
     {
@@ -71,30 +114,6 @@ const Templates = () => {
     }
   ]);
 
-  const handleNewTemplate = () => {
-    if (!isAuthenticated) {
-      setShowLoginDialog(true);
-    } else {
-      setShowTemplateForm(true);
-    }
-  };
-
-  const handleSubmitTemplate = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the data to your backend
-    toast({
-      title: "Template Submitted",
-      description: "Your template has been sent for approval. We'll review it soon.",
-    });
-    setShowTemplateForm(false);
-    setFormData({
-      title: "",
-      description: "",
-      githubLink: "",
-      tags: [],
-    });
-  };
-
   return (
     <div className="container mx-auto p-4 md:p-8 bg-[#111]">
       <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
@@ -129,42 +148,62 @@ const Templates = () => {
           </Dialog>
 
           <Dialog open={showTemplateForm} onOpenChange={setShowTemplateForm}>
-            <DialogContent className="bg-gray-900 text-white">
+            <DialogContent className="bg-gray-900 text-white max-w-2xl">
               <DialogHeader>
                 <DialogTitle>Submit New Template</DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmitTemplate} className="space-y-4">
-                <div>
+              <form onSubmit={handleSubmitTemplate} className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="title">Title</Label>
                   <Input
+                    id="title"
                     placeholder="Template Title"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="bg-gray-800 border-gray-700"
+                    required
                   />
                 </div>
-                <div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
-                    placeholder="Template Description"
+                    id="description"
+                    placeholder="Describe your template..."
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="bg-gray-800 border-gray-700"
+                    className="bg-gray-800 border-gray-700 min-h-[100px]"
+                    required
                   />
                 </div>
-                <div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="githubLink">GitHub Link</Label>
                   <Input
-                    placeholder="GitHub Link"
+                    id="githubLink"
+                    placeholder="https://github.com/username/repo"
                     value={formData.githubLink}
                     onChange={(e) => setFormData({ ...formData, githubLink: e.target.value })}
                     className="bg-gray-800 border-gray-700"
+                    type="url"
+                    required
                   />
                 </div>
-                <div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="tags">Tags (comma-separated)</Label>
                   <Input
-                    placeholder="Tags (comma-separated)"
-                    onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',').map(tag => tag.trim()) })}
+                    id="tags"
+                    placeholder="frontend, backend, react, etc."
+                    value={formData.tags.join(", ")}
+                    onChange={(e) => setFormData({ 
+                      ...formData, 
+                      tags: e.target.value.split(",").map(tag => tag.trim()).filter(Boolean)
+                    })}
                     className="bg-gray-800 border-gray-700"
                   />
                 </div>
+
                 <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
                   Submit Template
                 </Button>

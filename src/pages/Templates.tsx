@@ -7,9 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-// Mock authentication state management
-const isAuthenticated = false;
-
 interface TemplateFormData {
   title: string;
   description: string;
@@ -28,6 +25,7 @@ const Templates = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [showTemplateForm, setShowTemplateForm] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState<TemplateFormData>({
     title: "",
     description: "",
@@ -44,6 +42,7 @@ const Templates = () => {
   const handleLogin = () => {
     setIsAuthenticated(true);
     setShowLoginDialog(false);
+    setShowTemplateForm(true);
     toast({
       title: "Logged in successfully",
       description: "Welcome back! You can now submit templates.",

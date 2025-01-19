@@ -3,11 +3,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Star, Plus, BookmarkIcon } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+
+// Mock authentication - replace with actual auth later
+const isAuthenticated = false; // This should come from your auth context
+
+interface TemplateFormData {
+  title: string;
+  description: string;
+  githubLink: string;
+  tags: string[];
+}
 
 const Templates = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
+  const [showLoginDialog, setShowLoginDialog] = useState(false);
+  const [showTemplateForm, setShowTemplateForm] = useState(false);
+  const [formData, setFormData] = useState<TemplateFormData>({
+    title: "",
+    description: "",
+    githubLink: "",
+    tags: [],
+  });
+
   const [templates, setTemplates] = useState([
     {
       name: "Portfolio",
@@ -51,44 +71,29 @@ const Templates = () => {
     }
   ]);
 
-  const [newTemplate, setNewTemplate] = useState({
-    name: "",
-    description: "",
-    type: "Personal"
-  });
-
-  const handleCreateTemplate = () => {
-    if (newTemplate.name && newTemplate.description) {
-      // Instead of adding directly to templates, show pending message
-      toast({
-        title: "Template Submitted",
-        description: "Your template has been submitted for approval. It will be visible once approved.",
-      });
-      
-      setNewTemplate({ name: "", description: "", type: "Personal" });
+  const handleNewTemplate = () => {
+    if (!isAuthenticated) {
+      setShowLoginDialog(true);
+    } else {
+      setShowTemplateForm(true);
     }
   };
 
-  const toggleBookmark = (index: number) => {
-    const updatedTemplates = [...templates];
-    updatedTemplates[index].isBookmarked = !updatedTemplates[index].isBookmarked;
-    setTemplates(updatedTemplates);
+  const handleSubmitTemplate = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the data to your backend
+    toast({
+      title: "Template Submitted",
+      description: "Your template has been sent for approval. We'll review it soon.",
+    });
+    setShowTemplateForm(false);
+    setFormData({
+      title: "",
+      description: "",
+      githubLink: "",
+      tags: [],
+    });
   };
-
-  const filteredTemplates = templates
-    .filter(template => 
-      (template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      template.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
-      template.status === "approved" // Only show approved templates
-    )
-    .sort((a, b) => b.stars - a.stars);
-
-  const StarCount = ({ count }: { count: number }) => (
-    <div className="flex items-center gap-1 text-gray-400">
-      <Star className="w-4 h-4" />
-      <span className="text-sm">{count}</span>
-    </div>
-  );
 
   return (
     <div className="container mx-auto p-4 md:p-8 bg-[#111]">
@@ -102,75 +107,112 @@ const Templates = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-gray-900 border-gray-700 text-white"
           />
-          <Dialog>
+          <Dialog open={showLoginDialog} onOpenChange={setShowLoginDialog}>
             <DialogTrigger asChild>
-              <Button className="bg-red-600 hover:bg-red-700">
+              <Button onClick={handleNewTemplate} className="bg-red-600 hover:bg-red-700">
                 <Plus className="w-4 h-4" />
                 New Template
               </Button>
             </DialogTrigger>
             <DialogContent className="bg-gray-900 text-white">
               <DialogHeader>
-                <DialogTitle>Create New Template</DialogTitle>
+                <DialogTitle>Login Required</DialogTitle>
               </DialogHeader>
-              <div className="space-y-4">
-                <Input
-                  placeholder="Template Name"
-                  value={newTemplate.name}
-                  onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
-                  className="bg-gray-800 border-gray-700"
-                />
-                <Input
-                  placeholder="Description"
-                  value={newTemplate.description}
-                  onChange={(e) => setNewTemplate({ ...newTemplate, description: e.target.value })}
-                  className="bg-gray-800 border-gray-700"
-                />
-                <select
-                  value={newTemplate.type}
-                  onChange={(e) => setNewTemplate({ ...newTemplate, type: e.target.value })}
-                  className="w-full bg-gray-800 border-gray-700 rounded-md p-2"
-                >
-                  <option value="Personal">Personal</option>
-                  <option value="Business">Business</option>
-                  <option value="Content">Content</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="Social">Social</option>
-                </select>
-                <Button onClick={handleCreateTemplate} className="w-full bg-red-600 hover:bg-red-700">
-                  Create Template
+              <p className="text-gray-400">Please login to submit a new template.</p>
+              <Button 
+                onClick={() => window.location.href = '/login'} 
+                className="bg-red-600 hover:bg-red-700"
+              >
+                Go to Login
+              </Button>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={showTemplateForm} onOpenChange={setShowTemplateForm}>
+            <DialogContent className="bg-gray-900 text-white">
+              <DialogHeader>
+                <DialogTitle>Submit New Template</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleSubmitTemplate} className="space-y-4">
+                <div>
+                  <Input
+                    placeholder="Template Title"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    className="bg-gray-800 border-gray-700"
+                  />
+                </div>
+                <div>
+                  <Textarea
+                    placeholder="Template Description"
+                    value={formData.description}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    className="bg-gray-800 border-gray-700"
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="GitHub Link"
+                    value={formData.githubLink}
+                    onChange={(e) => setFormData({ ...formData, githubLink: e.target.value })}
+                    className="bg-gray-800 border-gray-700"
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Tags (comma-separated)"
+                    onChange={(e) => setFormData({ ...formData, tags: e.target.value.split(',').map(tag => tag.trim()) })}
+                    className="bg-gray-800 border-gray-700"
+                  />
+                </div>
+                <Button type="submit" className="w-full bg-red-600 hover:bg-red-700">
+                  Submit Template
                 </Button>
-              </div>
+              </form>
             </DialogContent>
           </Dialog>
         </div>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredTemplates.map((template, index) => (
-          <div key={index} className="bg-gray-900 rounded-lg p-6 hover:bg-gray-800 transition-colors">
-            <div className="flex justify-between items-start mb-2">
-              <h3 className="text-xl font-semibold text-white">{template.name}</h3>
-              <StarCount count={template.stars} />
-            </div>
-            <p className="text-gray-400 mb-4">{template.description}</p>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-red-600">{template.type}</span>
-              <div className="flex gap-2">
-                <Button
-                  variant="ghost"
-                  onClick={() => toggleBookmark(index)}
-                  className={template.isBookmarked ? "text-red-600" : "text-gray-400"}
-                >
-                  <BookmarkIcon className="w-4 h-4" />
-                </Button>
-                <Button className="bg-red-600 hover:bg-red-700">
-                  Use Template
-                </Button>
+        {templates
+          .filter(template => 
+            (template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            template.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
+            template.status === "approved" // Only show approved templates
+          )
+          .sort((a, b) => b.stars - a.stars)
+          .map((template, index) => (
+            <div key={index} className="bg-gray-900 rounded-lg p-6 hover:bg-gray-800 transition-colors">
+              <div className="flex justify-between items-start mb-2">
+                <h3 className="text-xl font-semibold text-white">{template.name}</h3>
+                <div className="flex items-center gap-1 text-gray-400">
+                  <Star className="w-4 h-4" />
+                  <span className="text-sm">{template.stars}</span>
+                </div>
+              </div>
+              <p className="text-gray-400 mb-4">{template.description}</p>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-red-600">{template.type}</span>
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      const updatedTemplates = [...templates];
+                      updatedTemplates[index].isBookmarked = !updatedTemplates[index].isBookmarked;
+                      setTemplates(updatedTemplates);
+                    }}
+                    className={template.isBookmarked ? "text-red-600" : "text-gray-400"}
+                  >
+                    <BookmarkIcon className="w-4 h-4" />
+                  </Button>
+                  <Button className="bg-red-600 hover:bg-red-700">
+                    Use Template
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
